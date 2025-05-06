@@ -1,4 +1,9 @@
 Webflow.push(function () {
+  // ✅ Add custom method to support minchecked via attribute
+  $.validator.addMethod("minchecked", function (value, element, param) {
+    return $("input[name='" + element.name + "']:checked").length >= param;
+  });
+
   // Setup form validation
   $('[data-validate-form="true"]').each(function () {
     const $form = $(this);
@@ -10,18 +15,15 @@ Webflow.push(function () {
       onkeyup: function (element) {
         $(element).valid(); // triggers validation on each keypress
       },
-      rules: {
-        URL: {
-          required: true,
-          url: true,
-        },
+      onclick: function (element) {
+        $(element).valid(); // triggers validation on checkbox/radio click
       },
-      messages: {
-        URL: {
-          required: "Website URL is required",
-          url: "Please enter a valid URL",
-        },
-      },
+      // rules: {
+
+      // },
+      // messages: {
+
+      // },
     });
   });
 
